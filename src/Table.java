@@ -1,65 +1,40 @@
 import java.util.Arrays;
 
 public class Table {
-	// keeps track, updates, prints what is currently on the game table
-	private Card[][] table = new Card[4][5];
-	private Card[] positions = new Card[20];
-	private boolean[] positionEmpty = new boolean[20];
+	// Keeps track of, updates, prints what is currently on the game table
+
+	private Card[] positions = new Card[20]; // array that will store cards in corresponding positions
+	private boolean[] positionEmpty = new boolean[20]; // array that stores whether each slot is empty
 
 	Table() {
-		// constructs a new table at the beginning of the game with all positions empty
+		// constructor for a new game table with all slots empty
 		for (int i = 0; i < positionEmpty.length; i++) {
 			positionEmpty[i] = true;
 		}
-
-//		int index = 0;
-//		// assigns the memory slots in the "table" grid array to whatever will be/is
-//		// stored in positions array (1-16)
-//		for (int i = 0; i <= 1; i++) {
-//			for (int j = 0; j < table[i].length; j++) {
-//				table[i][j] = positions[index];
-//				index++;
-//			}
-//		}
-//		for (int i = 2; i <= 3; i++) {
-//			for (int j = 1; j < table[i].length - 1; j++) {
-//				table[i][j] = positions[index];
-//				index++;
-//			}
-//		}
-
 	}
 
 	public void printTable() {
+		// prints the current state of the game table
 
-		// these are just to test what happens when one of the grid values is filled
-		// with a sample card
-//		Card testCard = new Card("4", 'S');
-//		positions[3] = testCard;
-//		positionEmpty[3] = false;
+		int index = 0; // to keep track of positions
+		int slotLength;// a "bookkeeping" variable to set the correct spacing between slots
 
-		int index = 0;
-
-		// a "bookkeeping" variable just to set the correct spacing between slots
-		int slotLength;
-		// prints out the current state of cards/positions on the table
-		// will print the number of the slot if it's empty
-		// if slot has a card, will print that card
-		for (int i = 0; i <= 1; i++) {
-			for (int j = 0; j < table[i].length; j++) {
-				if (positionEmpty[index] == true) {
+		for (int i = 0; i <= 1; i++) { // for the first two rows
+			for (int j = 0; j < 5; j++) {
+				if (positionEmpty[index]) {
 					// if position is empty, print out its index
 					System.out.print(index + 1);
-					// a "bookkeeping" variable just to set the correct spacing between slots
+					// a "bookkeeping" variable to set the correct spacing between slots
 					slotLength = 1 + ((index + 1) / 10);
 				} else {
-					// if position has a card, print out the card name
+					// if position is occupied, print out the card name
 					String cardName = positions[index].getName();
 					System.out.print(cardName);
-					// a "bookkeeping" variable just to set the correct spacing between slots
+					// a "bookkeeping" variable to set the correct spacing between slots
 					slotLength = cardName.length();
 				}
 				index++;
+
 				// a "bookkeeping" loop to make sure spacing is consistent despite different
 				// slot (character) lengths
 				for (int k = 0; k < 5 - slotLength; k++) {
@@ -68,19 +43,19 @@ public class Table {
 			}
 			System.out.println(); // prints a new line after each row is complete
 		}
-		for (int i = 2; i <= 3; i++) {
-			System.out.print("     "); // prints space between positions
-			for (int j = 1; j < table[i].length - 1; j++) {
-				if (positionEmpty[index] == true) {
+		for (int i = 2; i <= 3; i++) { // for the last two rows
+			System.out.print("     "); // prints space before the first position on row
+			for (int j = 1; j < 4; j++) {
+				if (positionEmpty[index]) {
 					// if position is empty, print out its index
 					System.out.print(index + 1);
-					// a "bookkeeping" variable just to set the correct spacing between slots
+					// a "bookkeeping" variable to set the correct spacing between slots
 					slotLength = 1 + ((index + 1) / 10);
 				} else {
-					// if position has a card, print out the card name
+					// if position is occupied, print out the card name
 					String cardName = positions[index].getName();
 					System.out.print(cardName);
-					// a "bookkeeping" variable just to set the correct spacing between slots
+					// a "bookkeeping" variable to set the correct spacing between slots
 					slotLength = cardName.length();
 				}
 				index++;
@@ -95,7 +70,7 @@ public class Table {
 	}
 
 	public boolean isSlotEmpty(int s) {
-		// checks if the slot chosen by user (to put a card in) is empty
+		// checks if the slot chosen by user is empty
 		return positionEmpty[s - 1];
 	}
 
@@ -109,7 +84,7 @@ public class Table {
 		// checks if all 16 "scored" positions are full and returns a boolean
 		for (int i = 0; i < 16; i++) {
 			if (positionEmpty[i]) {
-				// as soon as the method finds one empty slot, it returns false
+				// as soon as the method finds one empty slot, return false
 				return false;
 			}
 		}
@@ -118,71 +93,66 @@ public class Table {
 	}
 
 	public int scoreGame() {
-		// score table that will just store the scores for each slot
-		int[][] scoreTable = new int[4][5];
+		// scores the game when all 16 positions are full
+
 		// array of scores for each of the 9 hands
 		int[][] handPoints = new int[9][5];
 
-//		// First, let's set scores for all hands as zero
-//		for (int i = 0; i < handScores.length; i++) {
-//			handScores[i][????] = 0;
-//		}
-
 		int index = 0; // index of "slots"
+
 		// loop to make a table of scores
 		for (int i = 0; i <= 1; i++) {
-			for (int j = 0; j < table[i].length; j++) {
-				// gets the score of the card positioned at a specific index
+			for (int j = 0; j < 5; j++) {
+				// gets the score of the card positioned at the index
 				int cardScore = positions[index].getScore();
-				// store the score in the score-table
-				scoreTable[i][j] = cardScore;
-//				// update scores for corresponding two hands
-				handPoints[i][j] = cardScore; // horizontal
-				handPoints[4 + j][i] = cardScore; // vertical
-				index++;
-			}
-		}
-		for (int i = 2; i <= 3; i++) {
-			for (int j = 1; j < table[i].length - 1; j++) {
-				// gets the score of the card posit1ioned at a specific index
-				int cardScore = positions[index].getScore();
-				// store the score in the score-table
-				scoreTable[i][j] = cardScore;
 				// update scores for corresponding two hands
 				handPoints[i][j] = cardScore; // horizontal
 				handPoints[4 + j][i] = cardScore; // vertical
 				index++;
 			}
 		}
-		// hard-code scores for "empty slots" below the arms of "T"
-//		System.out.println("Slot 2,0: " + scoreTable[2][0]);
+		for (int i = 2; i <= 3; i++) {
+			for (int j = 1; j < 4; j++) {
+				// gets the score of the card posit1ioned at the index
+				int cardScore = positions[index].getScore();
 
-		int[] handSums = new int[9]; // stores sums of card points for each hand
+				// update scores for corresponding two hands
+				handPoints[i][j] = cardScore; // horizontal
+				handPoints[4 + j][i] = cardScore; // vertical
+				index++;
+			}
+		}
+
+		int[] handSums = new int[9]; // stores sums of card points (not scores) for each hand
 		int[] handScores = new int[9]; // stores final scores of each hand
+
 		// a loop to calculate individual hand sums and scores
 		for (int i = 0; i < handPoints.length; i++) {
-			Arrays.sort(handPoints[i]); // sort the array to have aces (11s) in the end
+			// sort the array to have aces (11s) in the end
+			Arrays.sort(handPoints[i]);
 			for (int j = 0; j < handPoints[i].length; j++) {
-				if (handPoints[i][j] == 11) {
-					// checking which value of ace should be used
+				if (handPoints[i][j] == 11) { // if hand has aces
+					// checking which value of ace should be used:
+					// if the sum will be more than 21 considering ..
+					// all leftover 11s as 1 (array is sorted!), then choose 1
+					// otherwise choose 11
 					if (21 - handSums[i] >= (11 + 4 - j)) {
 						handSums[i] += 11;
 					} else {
 						handSums[i] += 1;
 					}
-				} else {
+				} else { // if not aces, then just add points
 					handSums[i] += handPoints[i][j];
 				}
-
-				System.out.print(handPoints[i][j] + " "); // TEST
-
+//				System.out.print(handPoints[i][j] + " "); // TEST (prints sorted card points in each hand)
 			}
-			// calculating actual hand scores from their sums/indices
+
+			// calculating actual hand scores from their sums
 			if (handSums[i] > 21) {
-				handScores[i] = 0;
+				handScores[i] = 0; // bust!
 			} else if (handSums[i] == 21) {
 				if (i == 4 || i == 8) { // hands 4 and 8 are the ones with 2 cards
-					handScores[i] = 10;
+					handScores[i] = 10; // blackjack!
 				} else {
 					handScores[i] = 7;
 				}
@@ -191,8 +161,7 @@ public class Table {
 			} else {
 				handScores[i] = 1;
 			}
-
-			System.out.println(" = " + handSums[i] + " -> " + handScores[i]); // TEST
+//			System.out.println("(Hand " + i + ") = " + handSums[i] + " -> " + handScores[i]); // TEST (prints total sum and score of each hand)
 		}
 
 		// calculate the overall total score
@@ -201,7 +170,7 @@ public class Table {
 			totalScore += handScores[i];
 		}
 
-		// Voila!
+		// return total score
 		return totalScore;
 	}
 }

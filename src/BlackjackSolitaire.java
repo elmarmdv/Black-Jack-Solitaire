@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BlackjackSolitaire {
@@ -25,32 +26,40 @@ public class BlackjackSolitaire {
 
 		System.out.println("Card drawn: " + cardDrawn.getName());
 		System.out.println("Select a slot for the card (1-20): ");
-		int slotChosen = scnr.nextInt(); // store user input of a chosen slot in a variable
+
+		int slotChosen = 0; // will store user input
+
+		try {
+			slotChosen = scnr.nextInt(); // store user input of a chosen slot
+		} catch (InputMismatchException e) {
+			// just need to catch it; prompt for re-entry appears below
+		}
 
 		// check if the position entered by user is valid
 		if (slotChosen < 1 || slotChosen > 20) {
-			System.out.println("Invalid slot! Please choose slot within 1-20!!!");
+			System.out.println("Invalid input! Please choose slot within 1-20!!!");
 			// prompt input again
 			newPlay();
-			// check if the position entered by user is empty
+			// check if the slot entered by user is empty
 		} else if (gameTable.isSlotEmpty(slotChosen)) {
 			// set Card to new position
 			gameTable.updateSlot(slotChosen, cardDrawn);
 			// remove card from deck
 			gameDeck.removeCard();
 
-			// check if all 16 scoring slots are filled: if yes, initiate scoring; if not,
-			// deal another card.
+			// check if all 16 scoring slots are filled:
+			// if yes, initiate scoring; if not, deal another card.
 			if (gameTable.allPositionsFilled()) {
-				int finalScore = gameTable.scoreGame();
+				gameTable.printTable();
+				System.out.println("All positions filled! Scoring in progress...");
+				int finalScore = gameTable.scoreGame(); // calculates and returns the score
 				System.out.println("Game over! You scored " + finalScore + " points.");
 			} else {
 				newPlay();
 			}
 		} else {
-			// print "Slot already full! Choose different slot!"
+			// if slot occupied, alert the user and prompt again
 			System.out.println("Slot " + slotChosen + " is already full!!! Choose a different slot!");
-			// prompt input again
 			newPlay();
 		}
 		scnr.close();

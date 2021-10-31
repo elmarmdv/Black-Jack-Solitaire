@@ -12,36 +12,24 @@ public class Deck {
 
 		for (int i = 0; i < rankArray.length; i++) { // first loop - ranks
 			for (int j = 0; j < suitArray.length; j++) { // second (nested) loop - suits
-
-				// create new card with corresponding rank (rankArray[i]) and suit
-				// (suitArray[j])
+				// create new card with corresponding rank and suit
 				Card newCard = new Card(rankArray[i], suitArray[j]);
-
 				// store this card in the (unsorted) deck
 				cardsInDeck.add(newCard);
-
-//				System.out.printf("Card %d-%d: %s%c%n", i, j, rankArray[i], suitArray[j]); // TEST 1 - print loop
-				// indices and cards.
 			}
 		}
-
-		// SHUFFLES THE DECK!
+		// shuffles the deck
 		Collections.shuffle(cardsInDeck);
-
-		// TEST FOR SHUFFLE
-//		for (Card elem : cardsInDeck) { // alternative of the first one, for enhanced loop
-//			System.out.println(elem.getName());
-//		}
 	}
 
 	public Card drawCard() {
-		// draws and returns a new card
+		// draws and returns the top card on the deck
 		Card nextCard = this.cardsInDeck.get(0);
 		return nextCard;
 	}
 
 	public void removeCard() {
+		// removes the top card on the deck
 		this.cardsInDeck.remove(0);
 	}
-
 }

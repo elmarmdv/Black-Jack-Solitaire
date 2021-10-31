@@ -11,7 +11,7 @@ public class Card {
 		if (r.equals("J") || r.equals("Q") || r.equals("K")) {
 			this.score = 10;
 		} else if (r.equals("A")) {
-			this.score = 11; // we will re-evaluate Ace's score in the end when scoring
+			this.score = 11; // we will re-evaluate Ace's score later when scoring
 		} else {
 			this.score = Integer.valueOf(r);
 		}
