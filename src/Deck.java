@@ -29,9 +29,9 @@ public class Deck {
 		Collections.shuffle(cardsInDeck);
 
 		// TEST FOR SHUFFLE
-		for (Card elem : cardsInDeck) { // alternative of the first one, for enhanced loop
-			System.out.println(elem.getName());
-		}
+//		for (Card elem : cardsInDeck) { // alternative of the first one, for enhanced loop
+//			System.out.println(elem.getName());
+//		}
 	}
 
 	public Card drawCard() {

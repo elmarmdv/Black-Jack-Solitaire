@@ -59,7 +59,11 @@ public class Table {
 					slotLength = cardName.length();
 				}
 				index++;
-				System.out.print("    "); // prints space between positions
+				// a "bookkeeping" loop to make sure spacing is consistent despite different
+				// slot (character) lengths
+				for (int k = 0; k < 5 - slotLength; k++) {
+					System.out.print(" ");
+				}
 			}
 			System.out.println(); // prints a new line after each row is complete
 		}
@@ -116,24 +120,24 @@ public class Table {
 		// score table that will just store the scores for each slot
 		int[][] scoreTable = new int[4][5];
 		// array of scores for each of the 9 hands
-		int[] handScores = new int[9];
+		int[][] handScores = new int[9][5];
 
-		// First, let's set scores for all hands as zero
-		for (int i = 0; i < handScores.length; i++) {
-			handScores[i] = 0;
-		}
+//		// First, let's set scores for all hands as zero
+//		for (int i = 0; i < handScores.length; i++) {
+//			handScores[i][????] = 0;
+//		}
 
 		int index = 0; // index of "slots"
-
+		// loop to make a table of scores
 		for (int i = 0; i <= 1; i++) {
 			for (int j = 0; j < table[i].length; j++) {
 				// gets the score of the card positioned at a specific index
 				int cardScore = positions[index].getScore();
 				// store the score in the score-table
 				scoreTable[i][j] = cardScore;
-				// update scores for corresponding two hands
-				handScores[i] += cardScore; // horizontal
-				handScores[i + j] += cardScore; // vertical
+//				// update scores for corresponding two hands
+				handScores[i][j] = cardScore; // horizontal
+				handScores[4 + j][i] = cardScore; // vertical
 				index++;
 			}
 		}
@@ -144,14 +148,29 @@ public class Table {
 				// store the score in the score-table
 				scoreTable[i][j] = cardScore;
 				// update scores for corresponding two hands
-				handScores[i] += cardScore; // horizontal
-				handScores[i + j] += cardScore; // vertical
+				handScores[i][j] = cardScore; // horizontal
+				handScores[4 + j][i] = cardScore; // vertical
 				index++;
 			}
 		}
 		// hard-code scores for "empty slots" below the arms of "T"
-		System.out.println("Slot 2,0: " + scoreTable[2][0]);
+//		System.out.println("Slot 2,0: " + scoreTable[2][0]);
 
-		return 0;
+		// a loop to calculate individual hand scores
+		for (int i = 0; i < handScores.length; i++) {
+			for (int j = 0; j < handScores[i].length; j++) {
+				System.out.print(handScores[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+		// variable to store the total score
+		int totalScore = 0;
+
+//		for (int i = 0; i < handScores.length; i++) {
+//			totalScore += handScores[i];
+//		}
+
+		return totalScore;
 	}
 }
