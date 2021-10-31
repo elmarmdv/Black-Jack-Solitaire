@@ -27,8 +27,6 @@ public class BlackjackSolitaire {
 		System.out.println("Select a slot for the card (1-20): ");
 		int slotChosen = scnr.nextInt(); // store user input of a chosen slot in a variable
 
-//		newPlay(); // DELETE THIS !!!!!!!
-
 		// check if the position entered by user is valid
 		if (slotChosen < 1 || slotChosen > 20) {
 			System.out.println("Invalid slot! Please choose slot within 1-20!!!");
@@ -45,7 +43,7 @@ public class BlackjackSolitaire {
 			// deal another card.
 			if (gameTable.allPositionsFilled()) {
 				int finalScore = gameTable.scoreGame();
-				System.out.println("Game over! You scored " + finalScore + " 30 points.");
+				System.out.println("Game over! You scored " + finalScore + " points.");
 			} else {
 				newPlay();
 			}

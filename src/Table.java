@@ -165,7 +165,7 @@ public class Table {
 			for (int j = 0; j < handPoints[i].length; j++) {
 				if (handPoints[i][j] == 11) {
 					// checking which value of ace should be used
-					if (21 - handSums[i] > (11 + 4 - j)) {
+					if (21 - handSums[i] >= (11 + 4 - j)) {
 						handSums[i] += 11;
 					} else {
 						handSums[i] += 1;
