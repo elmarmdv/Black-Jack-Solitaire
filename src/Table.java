@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Table {
 	// keeps track, updates, prints what is currently on the game table
@@ -120,7 +121,7 @@ public class Table {
 		// score table that will just store the scores for each slot
 		int[][] scoreTable = new int[4][5];
 		// array of scores for each of the 9 hands
-		int[][] handScores = new int[9][5];
+		int[][] handPoints = new int[9][5];
 
 //		// First, let's set scores for all hands as zero
 //		for (int i = 0; i < handScores.length; i++) {
@@ -136,8 +137,8 @@ public class Table {
 				// store the score in the score-table
 				scoreTable[i][j] = cardScore;
 //				// update scores for corresponding two hands
-				handScores[i][j] = cardScore; // horizontal
-				handScores[4 + j][i] = cardScore; // vertical
+				handPoints[i][j] = cardScore; // horizontal
+				handPoints[4 + j][i] = cardScore; // vertical
 				index++;
 			}
 		}
@@ -148,29 +149,59 @@ public class Table {
 				// store the score in the score-table
 				scoreTable[i][j] = cardScore;
 				// update scores for corresponding two hands
-				handScores[i][j] = cardScore; // horizontal
-				handScores[4 + j][i] = cardScore; // vertical
+				handPoints[i][j] = cardScore; // horizontal
+				handPoints[4 + j][i] = cardScore; // vertical
 				index++;
 			}
 		}
 		// hard-code scores for "empty slots" below the arms of "T"
 //		System.out.println("Slot 2,0: " + scoreTable[2][0]);
 
-		// a loop to calculate individual hand scores
-		for (int i = 0; i < handScores.length; i++) {
-			for (int j = 0; j < handScores[i].length; j++) {
-				System.out.print(handScores[i][j] + " ");
+		int[] handSums = new int[9]; // stores sums of card points for each hand
+		int[] handScores = new int[9]; // stores final scores of each hand
+		// a loop to calculate individual hand sums and scores
+		for (int i = 0; i < handPoints.length; i++) {
+			Arrays.sort(handPoints[i]); // sort the array to have aces (11s) in the end
+			for (int j = 0; j < handPoints[i].length; j++) {
+				if (handPoints[i][j] == 11) {
+					// checking which value of ace should be used
+					if (21 - handSums[i] > (11 + 4 - j)) {
+						handSums[i] += 11;
+					} else {
+						handSums[i] += 1;
+					}
+				} else {
+					handSums[i] += handPoints[i][j];
+				}
+
+				System.out.print(handPoints[i][j] + " "); // TEST
+
 			}
-			System.out.println();
+			// calculating actual hand scores from their sums/indices
+			if (handSums[i] > 21) {
+				handScores[i] = 0;
+			} else if (handSums[i] == 21) {
+				if (i == 4 || i == 8) { // hands 4 and 8 are the ones with 2 cards
+					handScores[i] = 10;
+				} else {
+					handScores[i] = 7;
+				}
+			} else if (handSums[i] <= 20 && handSums[i] >= 17) {
+				handScores[i] = handSums[i] - 15;
+			} else {
+				handScores[i] = 1;
+			}
+
+			System.out.println(" = " + handSums[i] + " -> " + handScores[i]); // TEST
 		}
 
-		// variable to store the total score
+		// calculate the overall total score
 		int totalScore = 0;
+		for (int i = 0; i < handScores.length; i++) {
+			totalScore += handScores[i];
+		}
 
-//		for (int i = 0; i < handScores.length; i++) {
-//			totalScore += handScores[i];
-//		}
-
+		// Voila!
 		return totalScore;
 	}
 }

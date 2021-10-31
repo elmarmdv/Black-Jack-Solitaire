@@ -45,7 +45,7 @@ public class BlackjackSolitaire {
 			// deal another card.
 			if (gameTable.allPositionsFilled()) {
 				int finalScore = gameTable.scoreGame();
-				System.out.println("Game over! Your score is: " + finalScore);
+				System.out.println("Game over! You scored " + finalScore + " 30 points.");
 			} else {
 				newPlay();
 			}
